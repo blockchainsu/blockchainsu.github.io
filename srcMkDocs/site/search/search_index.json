@@ -2,7 +2,7 @@
     "docs": [
         {
             "location": "/", 
-            "text": "Welcome to the Blockchain Labs\n\n\nCommands\n\n\nProject layout", 
+            "text": "Welcome to the Blockchain Labs\n\n\nCommands\n\n\nProject layout\n\n\nhttps://github.com/syracuse-fullstacksecurity/SUBlockchainLabs/tree/master/lab3.1", 
             "title": "Welcome to the Blockchain Labs"
         }, 
         {
@@ -17,7 +17,7 @@
         }, 
         {
             "location": "/#project-layout", 
-            "text": "", 
+            "text": "https://github.com/syracuse-fullstacksecurity/SUBlockchainLabs/tree/master/lab3.1", 
             "title": "Project layout"
         }
     ]
