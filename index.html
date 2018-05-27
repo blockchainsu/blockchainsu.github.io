@@ -79,7 +79,91 @@
 <p>Lab Description: This module consists of four lab tasks: The first three labs explore the transactional and mining interface exposed by a Blockchain. The last two labs require designing client program to iterate and visualize the Blockchain transaction storage. The module is outlined below:</p>
 <h2 id="blockchain-storage-and-mining">Blockchain Storage and Mining</h2>
 <hr />
-<p>In this lab, you are given the initial state that a custom Blockchain network of several mines is hosted on an on-campus machine which has been running for several days. The Blockchain machine also runs a daemon that periodically instructs some miner to conduct transactions with other miners.</p></div>
+<p>In this lab, you are given the initial state that a custom Blockchain network of several mines is hosted on an on-campus machine which has been running for several days. The Blockchain machine also runs a daemon that periodically instructs some miner to conduct transactions with other miners.</p>
+<h4 id="prerequisites">Prerequisites</h4>
+<hr />
+<ol>
+<li>Linux Shell Commands</li>
+<li>Understand <a href="http://www.ethdocs.org/en/latest/introduction/index.html">Ethereum</a></li>
+</ol>
+<h4 id="lab-environment-setup">Lab Environment Setup</h4>
+<hr />
+<p><strong>1.    Download Ethereum clients</strong>
+    There are several <code>Ethereum</code> <a href="http://ethdocs.org/en/latest/ethereum-clients/choosing-a-client.html">client</a> implementation, we will use the <code>Go</code> implementation, that is, <code>Geth</code>,for this lab. You can choose to either install the <code>Geth</code> on you own machine or the Linux machine running on VirtualBox. See <a href="https://github.com/ethereum/go-ethereum/wiki/Building-Ethereum">here</a> for more information.</p>
+<p><strong><em>Ubuntu Users</em></strong> Here is the instructions to install the <code>Geth</code> for Ubuntu.</p>
+<pre><code>$ sudo apt-get install software-properties-common
+$ sudo add-apt-repository -y ppa:ethereum/ethereum
+$ sudo apt-get update
+$ sudo apt-get install ethereum
+</code></pre>
+
+<p><strong><em>Mac Users</em></strong></p>
+<pre><code>brew tap ethereum/ethereum
+brew install ethereum
+</code></pre>
+
+<p><strong><em>Windows Users</em></strong>
+https://github.com/ethereum/go-ethereum/wiki/Installation-instructions-for-Windows</p>
+<p><strong>2.    Join the Blockchain network</strong>
+<strong>2.1 Connect to the Blockchain Gateway(Bootnode):</strong> Every blockchain starts with the genesis block. When you run geth with default settings for the first time, the main net genesis block is committed to the database. For a private network, you usually want a different genesis block. We have a pre-defined custom [<a href="https://github.com/syracuse-fullstacksecurity/SUBlockchainLabs/blob/master/lab3.1/genesis.json">genesis.json</a>] file. The <code>config</code> section ensures that certain protocol upgrades are immediately available. The <code>alloc</code> section pre-funds accounts, which is currently empty. 
+Following the instructions below to run geth.</p>
+<pre><code>$ mkdir &lt;data-dir&gt;
+$ geth --datadir &lt;data-dir&gt; init genesis.json  # create a database that uses this genesis bloc
+$ geth --datadir &lt;data-dir&gt; --networkid 7002017 --bootnodes enode://bc8d0a1a1590a1b44bac98ec878b179d9d82e94d03cbb5a58251232b69806bac9069f60c67d18931c773103232386ac241111c3cd5f3f532288388c97fb70d97@128.230.208.73:30301 console 2&gt;console.log
+</code></pre>
+
+<p>In the last command above, <code>--networkid</code> specify the private network ID. Connections between nodes are valid only if peers have identical protocol version and network ID, you can effectively isolate your network by setting either of these to a non default value. <code>--bootnode</code> option specify the bootnode address, following the format <code>[nodeID]:IP:port</code>. Every subsequent Geth node pointed to the bootnode for peer discovery. <a href="https://github.com/ethereum/go-ethereum/wiki/Command-Line-Options">This page</a> describes the options for <code>geth</code> commands.
+<strong>2.2 Add a Peer Miner:</strong> Add a peer node running on the remote machine by specify the node URL.</p>
+<pre><code>&gt;admin.addPeer(&quot;enode://7dfa61a25324880f03db7e4a63f7b0838c561bf7e00325a51f9723bb56be1bbd926f319a3d5817e9b574308b29ca74d5ecf25d7613e75aed9ab731105026715e@128.230.208.73:30303&quot;)
+</code></pre>
+
+<p>Check the connectivity by running:</p>
+<pre><code>&gt; admin.peers
+</code></pre>
+
+<p><strong>3.    Start Mining</strong></p>
+<p>Before mining, the coinbase has to be specified to one personal account, where your earnings will be settled. Run following commands to create a new account, and set it as coinbase.</p>
+<pre><code>&gt; personal.newAccount() # create an Account
+&gt; eth.accounts # check accounts
+&gt; miner.setEtherbase(eth.accounts[0]) # that address that will receive your earnings
+</code></pre>
+
+<p>You can now start/stop the miner.</p>
+<pre><code>&gt; miner.start(1)    # 1 refers to one thread
+&gt; miner.stop()
+</code></pre>
+
+<p>To know currently you are mining or not, you can run</p>
+<pre><code>&gt; miner.getHashrate()  # if you are mining, the hash rate should be a non-zero positive constant, and will change at different time
+</code></pre>
+
+<p>The list of <code>Geth</code> commands can be found on [<a href="https://github.com/ethereum/go-ethereum/wiki/Management-APIs">this page</a>].</p>
+<h4 id="lab-tasks">Lab Tasks</h4>
+<hr />
+<p>The tasks in this lab require to inspect and modify the content of Blockchain. In addition to the Ethereum commands you used above, there are other relevant commands as below.</p>
+<pre><code>&gt; eth.accounts[0] # check the account id
+&gt; eth.getBalance(&lt;account&gt;) # check the balance for one account, the argument is account id
+&gt; web3.fromWei(&lt;value&gt;,&quot;ether&quot;) # convert Wei to Ether
+&gt; web3.toWei(&lt;value&gt;,&quot;ether&quot;) #convert Ether to Wei
+&gt; eth.blockNumber # check the latest block number on the chain
+&gt; eth.getBlock(eth.blockNumber-3)  # display a certain block 
+&gt; eth.getBlock('latest', true)  # display the latest block
+&gt; eth.getBlock('pending', true) # display the pending block
+&gt; eth.sendTransaction({from:&quot;0x0c54f3f7d820bf52344772fa8ed097d1189cd93f&quot;, to:&quot;0xda1b60c80502fea9977bab42dcebad05c289dcd2&quot;, value:web3.toWei(1,&quot;ether&quot;)})
+#eth.sendTransaction({from:senderAccount, to:receiverAccount, value: amount})
+&gt; eth.getTransaction(&quot;0x57dfe8f7f4760f09cd76a8b09000fd43275d798503ed88ed6d8b39c1d5ce3157&quot;)
+</code></pre>
+
+<p><strong>Task 1:</strong> After you started mining, show the coins that you have mined. Then wait 1 minute, check the balance again.</p>
+<p><strong>Task 2:</strong> Show the content (all the blocks and transactions) on the blockchain. Then wait 1 minute, show the blockchain again to see how it is extended over time.</p>
+<p><strong>Task 3:</strong>
+1.  Submit a transaction, say <code>tx5</code>, to the blockchain. You create another account as the recipient (seller) of the transaction.
+2.  Show whether transaction <code>tx5</code> is included in the Blockchain; if not wait for a while, check again.</p>
+<p>Note 1: The above command will return a hash tag which served as the ID of the transaction, you could use that ID to query the transaction in the future.</p>
+<p>Note 2: <a href="http://www.ethdocs.org/en/latest/ether.html">Ether</a> is the name of the currency used within Ethereum. Wei is the smallest unit in Ethereum. 1 Ether = 10^18 Wei. The account balance and transfer amount are shown in Wei. You can use the converter utility web3.fromWei and web3.toWei to convert between Ether and Wei.</p>
+<p>Note 3: Before sending transactions, you may need to unlock your personal wallet/account and input passphrase. Example:</p>
+<pre><code>personal.unlockAccount(eth.accounts[0])
+</code></pre></div>
             
         </div>
 
@@ -126,5 +210,5 @@
 
 <!--
 MkDocs version : 0.14.0
-Build Date UTC : 2018-05-27 05:23:21.886056
+Build Date UTC : 2018-05-27 05:29:12.515270
 -->
