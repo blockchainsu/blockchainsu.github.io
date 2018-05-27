@@ -8,9 +8,9 @@ The Blockchain provides the storage of transaction history in cryptocurrency and
 
 Lab Description: This module consists of four lab tasks: The first three labs explore the transactional and mining interface exposed by a Blockchain. The last two labs require designing client program to iterate and visualize the Blockchain transaction storage. The module is outlined below:
 
-## Blochchain Storage and Mining
+## Blockchain Storage and Mining
 ---
-In this lab, you are given the initial state that a custom Blockchain network of several miners is hosted on an on-campus machine which has been running for several days. The Blockchain machine also runs a daemon that periodically instructs some miner to conduct transactions with other miners.
+In this lab, you are given the initial state that a custom Blockchain network of several mines is hosted on an on-campus machine which has been running for several days. The Blockchain machine also runs a daemon that periodically instructs some miner to conduct transactions with other miners.
 
 
 
