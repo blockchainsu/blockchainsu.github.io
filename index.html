@@ -80,16 +80,18 @@
 <h2 id="blockchain-storage-and-mining">Blockchain Storage and Mining</h2>
 <hr />
 <p>In this lab, you are given the initial state that a custom Blockchain network of several mines is hosted on an on-campus machine which has been running for several days. The Blockchain machine also runs a daemon that periodically instructs some miner to conduct transactions with other miners.  </p>
+<p><br /></p>
 <h4 id="prerequisites">Prerequisites</h4>
 <hr />
 <ol>
 <li>Linux Shell Commands</li>
 <li>Understand <a href="http://www.ethdocs.org/en/latest/introduction/index.html">Ethereum</a>  </li>
 </ol>
+<p><br /></p>
 <h4 id="lab-environment-setup">Lab Environment Setup</h4>
 <hr />
 <p><strong>1.    Download Ethereum clients</strong><br />
-    There are several <code>Ethereum</code> <a href="http://ethdocs.org/en/latest/ethereum-clients/choosing-a-client.html">client</a> implementation, we will use the <code>Go</code> implementation, that is, <code>Geth</code>,for this lab. You can choose to either install the <code>Geth</code> on you own machine or the Linux machine running on VirtualBox. See <a href="https://github.com/ethereum/go-ethereum/wiki/Building-Ethereum">here</a> for more information.</p>
+    There are several <code>Ethereum</code> <a href="http://ethdocs.org/en/latest/ethereum-clients/choosing-a-client.html">client</a> implementation, we will use the <code>Go</code> implementation, that is, <code>Geth</code>,for this lab. You can choose to either install the <code>Geth</code> on your own machine or the Linux machine running on VirtualBox. See <a href="https://github.com/ethereum/go-ethereum/wiki/Building-Ethereum">here</a> for more information.</p>
 <p><strong><em>Ubuntu Users</em></strong> Here is the instructions to install the <code>Geth</code> for Ubuntu.</p>
 <pre><code>$ sudo apt-get install software-properties-common
 $ sudo add-apt-repository -y ppa:ethereum/ethereum
@@ -103,8 +105,9 @@ brew install ethereum
 </code></pre>
 
 <p><strong><em>Windows Users</em></strong><br />
-https://github.com/ethereum/go-ethereum/wiki/Installation-instructions-for-Windows</p>
+<a href="https://github.com/ethereum/go-ethereum/wiki/Installation-instructions-for-Windows">https://github.com/ethereum/go-ethereum/wiki/Installation-instructions-for-Windows</a></p>
 <p><strong>2.    Join the Blockchain network</strong><br />
+<br />
 <strong>2.1 Connect to the Blockchain Gateway(Bootnode):</strong> Every blockchain starts with the genesis block. When you run geth with default settings for the first time, the main net genesis block is committed to the database. For a private network, you usually want a different genesis block. We have a pre-defined custom [<a href="https://github.com/syracuse-fullstacksecurity/SUBlockchainLabs/blob/master/lab3.1/genesis.json">genesis.json</a>] file. The <code>config</code> section ensures that certain protocol upgrades are immediately available. The <code>alloc</code> section pre-funds accounts, which is currently empty. 
 Following the instructions below to run geth.</p>
 <pre><code>$ mkdir &lt;data-dir&gt;
@@ -112,7 +115,8 @@ $ geth --datadir &lt;data-dir&gt; init genesis.json  # create a database that us
 $ geth --datadir &lt;data-dir&gt; --networkid 7002017 --bootnodes enode://bc8d0a1a1590a1b44bac98ec878b179d9d82e94d03cbb5a58251232b69806bac9069f60c67d18931c773103232386ac241111c3cd5f3f532288388c97fb70d97@128.230.208.73:30301 console 2&gt;console.log
 </code></pre>
 
-<p>In the last command above, <code>--networkid</code> specify the private network ID. Connections between nodes are valid only if peers have identical protocol version and network ID, you can effectively isolate your network by setting either of these to a non default value. <code>--bootnode</code> option specify the bootnode address, following the format <code>[nodeID]:IP:port</code>. Every subsequent Geth node pointed to the bootnode for peer discovery. <a href="https://github.com/ethereum/go-ethereum/wiki/Command-Line-Options">This page</a> describes the options for <code>geth</code> commands.<br />
+<p>In the last command above, <code>--networkid</code> specify the private network ID. Connections between nodes are valid only if peers have identical protocol version and network ID, you can effectively isolate your network by setting either of these to a non default value. <code>--bootnode</code> option specify the bootnode address, following the format <code>[nodeID]:IP:port</code>. Every subsequent Geth node pointed to the bootnode for peer discovery. <a href="https://github.com/ethereum/go-ethereum/wiki/Command-Line-Options">This page</a> describes the options for <code>geth</code> commands.  </p>
+<p><br />
 <strong>2.2 Add a Peer Miner:</strong> Add a peer node running on the remote machine by specify the node URL.</p>
 <pre><code>&gt;admin.addPeer(&quot;enode://7dfa61a25324880f03db7e4a63f7b0838c561bf7e00325a51f9723bb56be1bbd926f319a3d5817e9b574308b29ca74d5ecf25d7613e75aed9ab731105026715e@128.230.208.73:30303&quot;)
 </code></pre>
@@ -138,6 +142,7 @@ $ geth --datadir &lt;data-dir&gt; --networkid 7002017 --bootnodes enode://bc8d0a
 </code></pre>
 
 <p>The list of <code>Geth</code> commands can be found on [<a href="https://github.com/ethereum/go-ethereum/wiki/Management-APIs">this page</a>].  </p>
+<p><br /></p>
 <h4 id="lab-tasks">Lab Tasks</h4>
 <hr />
 <p>The tasks in this lab require to inspect and modify the content of Blockchain. In addition to the Ethereum commands you used above, there are other relevant commands as below.</p>
@@ -157,7 +162,7 @@ $ geth --datadir &lt;data-dir&gt; --networkid 7002017 --bootnodes enode://bc8d0a
 <p><strong>Task 1:</strong> After you started mining, show the coins that you have mined. Then wait 1 minute, check the balance again.</p>
 <p><strong>Task 2:</strong> Show the content (all the blocks and transactions) on the blockchain. Then wait 1 minute, show the blockchain again to see how it is extended over time.</p>
 <p><strong>Task 3:</strong><br />
-1.  Submit a transaction, say <code>tx5</code>, to the blockchain. You create another account as the recipient (seller) of the transaction.
+1.  Submit a transaction, say <code>tx5</code>, to the blockchain. You create another account as the recipient (seller) of the transaction.<br />
 2.  Show whether transaction <code>tx5</code> is included in the Blockchain; if not wait for a while, check again.</p>
 <p>Note 1: The above command will return a hash tag which served as the ID of the transaction, you could use that ID to query the transaction in the future.</p>
 <p>Note 2: <a href="http://www.ethdocs.org/en/latest/ether.html">Ether</a> is the name of the currency used within Ethereum. Wei is the smallest unit in Ethereum. 1 Ether = 10^18 Wei. The account balance and transfer amount are shown in Wei. You can use the converter utility web3.fromWei and web3.toWei to convert between Ether and Wei.</p>
@@ -210,5 +215,5 @@ $ geth --datadir &lt;data-dir&gt; --networkid 7002017 --bootnodes enode://bc8d0a
 
 <!--
 MkDocs version : 0.14.0
-Build Date UTC : 2018-05-27 16:17:08.239325
+Build Date UTC : 2018-05-27 18:25:44.903800
 -->
