@@ -8,20 +8,17 @@ The Blockchain provides the storage of transaction history in cryptocurrency and
 
 Lab Description: This module consists of four lab tasks: The first three labs explore the transactional and mining interface exposed by a Blockchain. The last two labs require designing client program to iterate and visualize the Blockchain transaction storage. The module is outlined below:
 
-<br />
 ## Lab Tasks
 ---
 Follow the below link to execute the lab:  
 <https://github.com/syracuse-fullstacksecurity/SUBlockchainLabs/tree/master/lab3.1>
 
-<br />
 ## Recommended Time
 ---
 * Supervised situation (e.g. a closely-guided lab session): **1 hour**
 * Unsupervised situation (e.g. take a home lab): **1 week**
 
-<br />
-## Files that are nedeed
+## Files that are needed
 ---
 * You will need the [[genesis.json](https://github.com/syracuse-fullstacksecurity/SUBlockchainLabs/blob/master/lab3.1/genesis.json)] file to execute this lab successfully.
 
